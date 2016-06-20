@@ -10,6 +10,7 @@ public class Main {
         Teacher teacher = new Teacher();
         Student student = new Student();
         while (true) {
+            System.out.println("\n\n\n");
             System.out.println("\t\t1. Add Teacher");
             System.out.println("\t\t2. Add Student");
             System.out.println("\t\t3. Search Teacher");
@@ -37,48 +38,84 @@ public class Main {
                 }
                 break;
                 case 3: {
-                    System.out.println("\t\t Search Teacher");
+                    if(university.indext > 0) {
+
+                        System.out.println("\t\t Search Teacher");
                     System.out.println("Enter ID :");
                     int id = getval.nextInt();
                     university.searchTeacher(id);
+                }else
+                    {
+                        System.out.println("Empty...");
+                    }
+
                 }
                 break;
                 case 4: {
-                    System.out.println("\t\t Search Student");
-                    System.out.println("Enter Roll Number : ");
-                    int roll = getval.nextInt();
-                    university.searchStudent(roll);
+                    if(university.indexs > 0) {
 
+                        System.out.println("\t\t Search Student");
+                        System.out.println("Enter Roll Number : ");
+                        int roll = getval.nextInt();
+                        university.searchStudent(roll);
+                    }
+                    else
+                    {
+                        System.out.println("Empty..");
+                    }
                 }
                 break;
                 case 5: {
-                    System.out.println("\t\t Modify Teacher");
 
+                    if(university.indext > 0) {
+                        System.out.println("\t\t Modify Teacher");
+                        System.out.println("Enter Id :");
+                        int id = getval.nextInt();
+                        university.modifyTeacher(id);
+                    }
+                    else
+                    {
+                        System.out.println("Empty...");
+                    }
                 }
                 break;
                 case 6: {
-                    System.out.println("\t\t Modify Student");
+                    if(university.indexs > 0) {
 
+                    System.out.println("\t\t Modify Student");
+                        System.out.println("Enter Roll#:");
+                        int roll = getval.nextInt();
+                        university.modifyStudent(roll);
+
+                }else
+                    {
+                        System.out.println("Empty..");
+                    }
                 }
                 break;
                 case 7: {
                     System.out.println("\t\t Delete Teacher");
+                    System.out.println("Enter Id :");
+                    int id = getval.nextInt();
+                    university.deleteTeacher(id);
 
                 }
                 break;
                 case 8: {
                     System.out.println("\t\t Delete Student");
-
+                    System.out.println("Enter Roll :");
+                    int roll = getval.nextInt();
+                    university.deleteStudent(roll);
                 }
                 break;
                 case 9: {
                     System.out.println("\t\t Show All Teacher");
-                    university.showallteach();
+                    university.showALLTeacher();
                 }
                 break;
                 case 10: {
                     System.out.println("\t\t Show All Student");
-
+                    university.showALLStudent();
 
                 }
                 break;
