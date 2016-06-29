@@ -1,8 +1,6 @@
 package com.company;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-import com.sun.org.apache.xpath.internal.SourceTree;
-
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.Scanner;
 
 /**
@@ -13,8 +11,8 @@ public class University {
     Student s;
     Teacher teacher[] = new Teacher[10];
     Student student[] = new Student[10];
-    int indext = 0;
-    int indexs = 0;
+    int teacherIndex = 0;
+    int studentIndex = 0;
     Scanner getval = new Scanner(System.in);
 //    public void addTeacher(){};
 //    public void addStudent(){};
@@ -27,8 +25,47 @@ public class University {
 //    public void modifyTeacher(){};
 //    public void modifyStudent(){};
 //    public void quit(){};
+    
 
-    public  void addTeacher(Teacher t ){
+    private void initializeTeacher(){
+        t = new Teacher();
+        t.setName("Sir Zeeshan");
+        t.setAge(29);
+        t.setContact("012345");
+        t.setCourse("java");
+        t.setId(1);
+        t.setExperience("TenYear");
+        saveTeacher(t);
+
+        t.setId(2);
+        t = new Teacher();
+        t.setName("Aziz Bhae");
+        t.setAge(23);
+        t.setContact("012345");
+        t.setCourse("java");
+        t.setExperience("oneYear");
+        saveTeacher(t);
+
+    }
+    private void initializeStudent(){
+        s = new Student();
+        s.setName("Ali");
+        s.setAge(20);
+        s.setContact("012345");
+        s.setLasteducation("Inter");
+        s.setRollnum(1);
+        saveStudent(s);
+
+        s = new Student();
+        s.setName("Shehryar");
+        s.setAge(20);
+        s.setContact("012345");
+        s.setLasteducation("Inter");
+        s.setRollnum(2);
+        saveStudent(s);
+    }
+
+    public  void addTeacher(){
         t = new Teacher();
         System.out.println("Name : ");
         String name = getval.next();
@@ -48,10 +85,26 @@ public class University {
         System.out.println("Contact # : ");
         String cnt = getval.next();
         t.setContact(cnt);
-        teacher[indext++] = t;
+
+        saveTeacher(t);
 
     }
-    public void addstudent(Student s){
+
+    private void saveTeacher(Teacher t) {
+        teacher[teacherIndex++] = t;
+    }
+    private void saveStudent(Student s) { student[studentIndex++] = s;}
+    private void specificTeacher(int i){
+        System.out.println("Name : " + teacher[i].getName() +
+                " \nAge : "+teacher[i].getAge() +"\nExperience : "+ teacher[i].getExperience()+
+                "\nCourse :" + teacher[i].getCourse() +"\nContact# : "+ teacher[i].getContact());
+    }
+    private void SpecificStudent(int i){
+        System.out.println("Name : " + student[i].getName() +
+                "\nAge : " + student[i].getAge() + "\nRoll# : "+student[i].getRollnum() +
+                "\nLast Education : " + student[i].getLasteducation()+ "\nContact : " + student[i].getContact());
+    }
+    private void addstudent(){
         s= new Student();
         System.out.println("Name : ");
         String name = getval.next();
@@ -68,179 +121,287 @@ public class University {
         System.out.println("Contact # : ");
         String cnt = getval.next();
         s.setContact(cnt);
-        student[indexs++] = s;
+        saveStudent(s);
 
     }
-    public void searchTeacher(int id){
-        boolean find = false;
-        for(int i =0 ; i < indext; i++) {
-            if (teacher[i] != null && teacher[i].getId() == id) {
-                System.out.println("Name : " + teacher[i].getName() +
-                        " \nAge : "+teacher[i].getAge() +"\nExperience : "+ teacher[i].getExperience()+
-                        "\nCourse :" + teacher[i].getCourse() +"\nContact# : "+ teacher[i].getContact());
-                find = true;
-                break;
-            }
-        }
-        if(find == false && teacher.length != 0){
-                System.out.println("Not Found...");
-            }
 
-        }
 
+    private int findTeacher(int index) {
+        boolean finds = false;
+        for ( int i = 0; i < teacherIndex; i++) {
+            if (teacher[i] != null && index == teacher[i].getId()) {
+               finds = true;
+            return i;}}
+    return -1;
+    }
+
+    private void searchTeacher(int id){
+        int get = findTeacher(id);
+        if(get!=-1) {
+            specificTeacher(get);
+        }
+        else {
+            System.out.println("Not Found...");
+        }
+    }
+private int findStudent(int rollnum){
+    boolean find = false;
+    for(int i = 0; i < studentIndex; i++) {
+        if (student[i] != null && rollnum == student[i].getRollnum()) {
+            find = true;
+            return i;
+        }
+    }
+   return -1;}
     public void searchStudent(int rollnum){
-        boolean find = false;
-        for(int i =0 ; i < indexs; i++){
-            if(student[i] != null && rollnum == student[i].getRollnum()){
-                System.out.println("Name : " + student[i].getName() +
-                 "\nAge : " + student[i].getAge() + "\nRoll# : "+student[i].getRollnum() +
-                "\nLast Education : " + student[i].getLasteducation()+ "\nContact : " + student[i].getContact());
-                find = true;
-                break;
-            }}
-            if(find == false && student.length != 0){
-                System.out.println("Not Found...");
-            }
+        int get = findStudent(rollnum);
+        if(get!=-1){
+            SpecificStudent(get);
+              }
+        else {
+            System.out.println("Not Found...");
+        }
 
     }
     public void showALLTeacher(){
-        if(indext > 0 ){
             System.out.println("\t ID NAME \t AGE \t EXPERIENCE \t COURSE \t CONTACT");
-        for(int i = 0; i<indext; i++){
+        for(int i = 0; i< teacherIndex; i++){
               if(teacher[i] != null){
                 System.out.println("\t "+teacher[i].getId()+"\t"+teacher[i].getName()+" \t"+teacher[i].getAge()+" \t"+teacher[i].getExperience()+"\t"+
                         teacher[i].getCourse()+"\t"+teacher[i].getContact());
 
         }}
         }
-        else {
-            System.out.println("Empty List..");
-        }
-    }
+
+
     public void showALLStudent(){
-        if(indexs > 0){
             System.out.println("\t NAME \t AGE \t ROLL# \t LAST EDU \t CONTACT");
-            for(int i = 0; i<indexs; i++){
-                System.out.println("\t "+student[i].getName()+"\t"+student[i].getAge()+" \t"+student[i].getRollnum()+" \t"+student[i].getLasteducation()+"\t"+
-                        student[i].getContact());
-
+            for(int i = 0; i< studentIndex; i++){
+                if(student[i] != null) {
+                    System.out.println("\t " + student[i].getName() + "\t" + student[i].getAge() + " \t" + student[i].getRollnum() + " \t" + student[i].getLasteducation() + "\t" +
+                            student[i].getContact());
+                }
             }
         }
-        else {
-            System.out.println("Empty List..");
-        }
-    }
+
+
     public void deleteTeacher(int id){
-        boolean find = false;
-        int i = 0;
-        for( i =0 ; i < indext; i++) {
-            if ( teacher[i].getId() == id) {
-                System.out.println("Name : " + teacher[i].getName() +
-                        " \nAge : "+teacher[i].getAge() +"\nExperience : "+ teacher[i].getExperience()+
-                        "\nCourse :" + teacher[i].getCourse() +"\nContact# : "+ teacher[i].getContact());
-                find = true;
-                break;
+        int get = findTeacher(id);
+ if(get!=-1) {
+     specificTeacher(get);
+     System.out.println("Are Sure To Delte y/n : ");
+     String choice = getval.next();
+     if (choice.equalsIgnoreCase("y")) {
+         teacher[get] = null;
 
-            }
-        }
-        if(find == false && teacher.length != 0){
-            System.out.println("Not Found...");
-        }
-        else {
-            System.out.println("Are Sure To Delte y/n : ");
-            String choice = getval.next();
-            if (choice.equalsIgnoreCase("y")) {
-                teacher[i] = null;
-                indext -= 1;
-            }
+     }
+ }
+ else {
+     System.out.println("Not Fonud");
+
             }
         }
 
     public void deleteStudent(int rollnum){
-        boolean find = false;
-        int i = 0;
-        for( i =0 ; i <indexs; i++){
-            if(rollnum == student[i].rollnum){
-                System.out.println("Name : " + student[i].getName() +
-                        "\nAge : " + student[i].getAge() + "\nRoll# : "+student[i].getRollnum() +
-                        "\nLast Education : " + student[i].getLasteducation()+ "\nContact : " + student[i].getContact());
-                find = true;
-                break;
-            }}
-        if(find == false && student.length != 0){
-            System.out.println("Not Found...");
-        }
-        else {
+        int get = findStudent(rollnum);
+        if(get!=-1){
+            SpecificStudent(get);
             System.out.println("Are Sure To Delte y/n : ");
             String choice = getval.next();
             if (choice.equalsIgnoreCase("y")) {
-                student[i] = null;
-                indexs -= 1;
-            }
+                student[get] = null;
+                        }
+
         }
-    }
+        else {
+            System.out.println("Not Found...");
+        }}
 
     public void modifyTeacher(int id) {
-        boolean find = false;
-        int i = 0;
-        if(indext > 0) {
-            for (i = 0; i < indext; i++) {
-                if (teacher[i].getId() == id) {
-                    System.out.println("Name : " + teacher[i].getName() +
-                            " \nAge : " + teacher[i].getAge() + "\nExperience : " + teacher[i].getExperience() +
-                            "\nCourse :" + teacher[i].getCourse() + "\nContact# : " + teacher[i].getContact());
-                    find = true;
-                    break;
-                }}
-            if (find == false && teacher.length != 0) {
-                System.out.println("Not Found...");
-            } else {
-                System.out.println("Are Sure To Modify y/n : ");
+     int get = findTeacher(id);
+        if(get!=-1){
+            specificTeacher(get);
+        System.out.println("Are Sure To Modify y/n : ");
                 String choice = getval.next();
                 if (choice.equalsIgnoreCase("y")) {
                     System.out.println("Experence : ");
                     String exp = getval.next();
-                    teacher[i].setExperience(exp);
+                    teacher[get].setExperience(exp);
                     System.out.println("Course : ");
                     String cur = getval.next();
-                    teacher[i].setCourse(cur);
+                    teacher[get].setCourse(cur);
                     System.out.println("Contact# : ");
                     String cnt = getval.next();
-                    teacher[i].setContact(cnt);
-                }}}
+                    teacher[get].setContact(cnt);
+                }}
         else
         {
-            System.out.println("Empty..");
+            System.out.println("Not Found...");
         }}
     public void modifyStudent(int rollnum) {
-        boolean find = false;
-        int i = 0;
-        if (indexs > 0) {
-            for (i = 0; i < indexs; i++) {
-                if (rollnum == student[i].rollnum) {
-                    System.out.println("Name : " + student[i].getName() +
-                            "\nAge : " + student[i].getAge() + "\nRoll# : " + student[i].getRollnum() +
-                            "\nLast Education : " + student[i].getLasteducation() + "\nContact : " + student[i].getContact());
-                    find = true;
-                    break;
-                }
-            }
-            if (find == false && student.length != 0) {
-                System.out.println("Not Found...");
-            } else {
-                System.out.println("Are Sure To Modify y/n : ");
+       int get = findStudent(rollnum);
+        if(get!=-1){
+            SpecificStudent(get);
+            System.out.println("Are Sure To Modify y/n : ");
                 String choice = getval.next();
                 if (choice.equalsIgnoreCase("y")) {
                     System.out.println("Last Educaton : ");
                     String ledu = getval.next();
-                    student[i].setLasteducation(ledu);
+                    student[get].setLasteducation(ledu);
                     System.out.println("Contact : ");
                     String cnt = getval.next();
-                    student[i].setContact(cnt);
+                    student[get].setContact(cnt);
+                }}
+        else {
+            System.out.println("Not Found...");
+        }}
+
+
+    public void menu() {
+        initializeTeacher();
+        initializeStudent();
+        while (true) {
+            System.out.println("\n1.Teacher\n2.Student\n3.Quit");
+            System.out.println("Select : ");
+            int select = getval.nextInt();
+            switch (select) {
+                case 1: {
+                    System.out.println("Teacher");
+
+                    while (true) {
+                        System.out.println("1. Add Teacher\n2. Search Teacher\n3. Modify Teacher\n4. " +
+                                "Delete Teacher\n5. Show All Teacher\n6. Main Menu");
+                        System.out.println("Select : ");
+                        int choice = getval.nextInt();
+                        switch (choice) {
+                            case 1: {
+                                addTeacher();
+                            }
+                            break;
+                            case 2: {
+                                if (teacherIndex > 0) {
+                                    System.out.println("Search Teacher");
+                                    System.out.println("Enter ID :");
+                                    int id = getval.nextInt();
+                                    searchTeacher(id);
+                                } else {
+                                    System.out.println("Empty...");
+                                }
+                            }
+                            break;
+                            case 3: {
+                                if (teacherIndex > 0) {
+                                    System.out.println(" Modify Teacher");
+                                    System.out.println("Enter Id :");
+                                    int id = getval.nextInt();
+                                    modifyTeacher(id);
+                                } else {
+                                    System.out.println("Empty...");
+                                }
+                            }
+                            break;
+                            case 4: {
+                                if (teacherIndex > 0) {
+                                    System.out.println("Delete Teacher");
+                                    System.out.println("Enter Id :");
+                                    int id = getval.nextInt();
+                                    deleteTeacher(id);
+                                } else {
+                                    System.out.println("Empty...");
+                                }
+                            }
+                            break;
+                            case 5: {
+                                if (teacherIndex > 0) {
+                                    System.out.println("\t\t Show All Teacher");
+                                    showALLTeacher();
+                                } else {
+                                    System.out.println("Empty...");
+                                }
+                            }
+                            break;
+                            case 6: {
+                                System.out.println("Back To Main Menu");
+                                return;
+                            }
+                            default: {
+                                System.out.println("Wrong Select..");
+                            }
+                        }
+
+                    }
                 }
-            }
-        }
-    }
 
 
-}
+                    case 2: {
+                        System.out.println(" Student");
+                        boolean pause = true;
+                        do {
+                        System.out.println("1. Add Student\n2. Search Student\n3. Modify Student\n4. " +
+                        "Delete Student\n5. Show All Student\n6.Main Menu");
+
+                            System.out.println("Select : ");
+                            int choice = getval.nextInt();
+                            switch (choice) {
+                                case 1: {
+                                    addstudent();
+                                }
+                                break;
+                                case 2: {
+                                    if (studentIndex > 0) {
+                                        System.out.println("Search Student");
+                                        System.out.println("Enter Roll No :");
+                                        int id = getval.nextInt();
+                                        searchStudent(id);
+                                    } else {
+                                        System.out.println("Empty...");
+                                    }
+                                }
+                                break;
+                                case 3: {
+                                    if (studentIndex > 0) {
+                                        System.out.println(" Modify Student");
+                                        System.out.println("Enter Roll No :");
+                                        int id = getval.nextInt();
+                                        modifyStudent(id);
+                                    } else {
+                                        System.out.println("Empty...");
+                                    }
+                                }
+                                break;
+                                case 4: {
+                                    if (studentIndex > 0) {
+                                        System.out.println("Delete Student");
+                                        System.out.println("Enter Roll No: :");
+                                        int id = getval.nextInt();
+                                        deleteStudent(id);
+                                    } else {
+                                        System.out.println("Empty...");
+                                    }
+                                }
+                                break;
+                                case 5: {
+                                    if (studentIndex > 0) {
+                                        System.out.println("\t\t Show All Student");
+                                        showALLStudent();
+                                    } else {
+                                        System.out.println("Empty...");
+                                    }
+                                }
+                                break;
+                                case 6: {
+                                    System.out.println("Back To Main Menu");
+                                     pause = true;
+                                }
+                                break;
+                                default: {
+                                    System.out.println("Wrong Select..");
+                                }
+                                break;
+                            }
+                        }while (pause==false);
+                    }
+
+                    case 3:{
+                        return;
+                }}}}}
