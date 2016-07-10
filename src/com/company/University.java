@@ -267,8 +267,8 @@ private int findStudent(int rollnum){
             switch (select) {
                 case 1: {
                     System.out.println("Teacher");
-
-                    while (true) {
+                    boolean pause = false;
+                    do {
                         System.out.println("1. Add Teacher\n2. Search Teacher\n3. Modify Teacher\n4. " +
                                 "Delete Teacher\n5. Show All Teacher\n6. Main Menu");
                         System.out.println("Select : ");
@@ -322,20 +322,19 @@ private int findStudent(int rollnum){
                             break;
                             case 6: {
                                 System.out.println("Back To Main Menu");
-                                return;
+                                pause = true;
                             }
+                            break;
                             default: {
-                                System.out.println("Wrong Select..");
+                                System.out.println("Wrong Selected..\n Select 1,2,3,4,5,6");
                             }
                         }
 
-                    }
-                }
-
-
-                    case 2: {
+                    }while (pause == false);
+                }break;
+                 case 2: {
                         System.out.println(" Student");
-                        boolean pause = true;
+                        boolean pause = false;
                         do {
                         System.out.println("1. Add Student\n2. Search Student\n3. Modify Student\n4. " +
                         "Delete Student\n5. Show All Student\n6.Main Menu");
@@ -395,13 +394,20 @@ private int findStudent(int rollnum){
                                 }
                                 break;
                                 default: {
-                                    System.out.println("Wrong Select..");
+                                    System.out.println("Wrong Selected..\n" +
+                                            " Select 1,2,3,4,5,6");
                                 }
                                 break;
                             }
-                        }while (pause==false);
+                        }
+                        while (pause==false);
                     }
-
+                    break;
                     case 3:{
                         return;
-                }}}}}
+                }
+                    default:{
+                        System.out.println("Wrong Selected..\n" +
+                                " Select 1,2,3");
+                    }
+            }}}}

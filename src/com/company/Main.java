@@ -9,6 +9,8 @@ public class Main {
         University university = new University();
         university.menu();
 
+        int a[] = new int[5];
+        int[] aa = new int[5];
         Teacher teacher = new Teacher();
         Student student = new Student();
 
